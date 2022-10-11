@@ -18,8 +18,8 @@ import javafx.stage.Stage;
 
 public class BombermanGame extends Application {
 
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+    public static final int WIDTH = 40;
+    public static final int HEIGHT = 30;
 
 //    private GraphicsContext gc;
 //    private Canvas canvas;
