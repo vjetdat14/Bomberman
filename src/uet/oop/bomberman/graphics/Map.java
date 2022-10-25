@@ -2,6 +2,8 @@ package uet.oop.bomberman.graphics;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.awt.*;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 
