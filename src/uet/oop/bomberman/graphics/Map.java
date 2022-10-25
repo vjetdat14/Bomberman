@@ -40,4 +40,7 @@ public class Map {
             var5.printStackTrace();
         }
     }
+
+    private void cpyHash(int[][] mapHash) {
+    }
 }
