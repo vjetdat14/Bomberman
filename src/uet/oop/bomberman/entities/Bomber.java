@@ -50,6 +50,7 @@ public class Bomber extends Character {
         if (direction == keyCode) {
             if (direction == KeyCode.LEFT) {
                 img = Sprite.player_left.getFxImage();
+                goLeft();
             }
             if (direction == KeyCode.RIGHT) {
                 img = Sprite.player_right.getFxImage();
@@ -68,21 +69,25 @@ public class Bomber extends Character {
     public void goLeft() {
         super.goLeft();
         img = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, left++, 20).getFxImage();
+        move();
     }
 
     public void goRight() {
         super.goRight();
         img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, right++, 20).getFxImage();
+        move();
     }
 
     public void goUp() {
         super.goUp();
         img = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, up++, 20).getFxImage();
+        move();
     }
 
     public void goDown() {
         super.goDown();
         img = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, down++, 20).getFxImage();
+        move();
     }
 
     public Rectangle getBounds() { // tạo bao cho bomber

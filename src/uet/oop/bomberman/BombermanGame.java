@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
@@ -31,6 +32,8 @@ public class BombermanGame extends Application {
     private final List<Entity> stillObjects = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
 
+    private Bomber bomberman;
+
 
 
     public static void main(String[] args) {
@@ -38,7 +41,7 @@ public class BombermanGame extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws URISyntaxException {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -46,18 +49,14 @@ public class BombermanGame extends Application {
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
-        Media media = null;
-        try {
-            media = new Media(Objects.requireNonNull(BombermanGame.class.getResource("/music/URF.mp3")).toURI().toString());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        MediaPlayer soundlooby = new MediaPlayer(media);
-        soundlooby.setCycleCount(MediaPlayer.INDEFINITE);
-        soundlooby.play();
+//        Media media = new Media(Objects.requireNonNull(BombermanGame.class.getResource("/music/URF.mp3")).toURI().toString());
+//
+//        MediaPlayer soundlooby = new MediaPlayer(media);
+//        soundlooby.setCycleCount(MediaPlayer.INDEFINITE);
+//        soundlooby.play();
 
         // Tao scene
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, Color.LIGHTBLUE);
 
         // Them scene vao stage
         stage.setScene(scene);
@@ -74,9 +73,12 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+
         entities.add(bomberman);
-    }
+        scene.setOnKeyPressed(event -> bomberman.handleKeyPressedEvent(event.getCode())); // sự kiện nhập từ bàn phím
+        scene.setOnKeyReleased(event -> bomberman.handleKeyReleasedEvent(event.getCode()));
+        }
 
     public void createMap() {
         for (int i = 0; i < WIDTH; i++) {
