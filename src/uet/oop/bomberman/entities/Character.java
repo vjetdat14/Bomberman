@@ -39,13 +39,13 @@ public abstract class Character extends Entity {
         desY = y + speed;
     }
 
-    // Cho phép di chuyển qua các thực thể trong điều kiện nhất định
+    // Cho phép di chuyển
     public void move() {
         x = desX;
         y = desY;
     }
 
-    // lệnh dừng -> ngăn ko cho đi qua các vật thể có chỉ số va chạm lớn hơn
+    // dừng
     public void stay() {
         desX = x;
         desY = y;
