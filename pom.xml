@@ -41,7 +41,7 @@
         <sourceDirectory>src</sourceDirectory>
         <resources>
             <resource>
-                <directory>res</directory>
+                <directory>resource</directory>
             </resource>
         </resources>
 
