@@ -1,6 +1,5 @@
 package uet.oop.bomberman.entities;
 
-import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
@@ -92,7 +91,7 @@ public class Bomber extends Character {
     }
 
     public Rectangle getBounds() { // tạo bao cho bomber
-        return new Rectangle(desX + 3, desY + 5, Sprite.SCALED_SIZE-15, Sprite.SCALED_SIZE*3/4);
+        return new Rectangle(desX + 3, desY + 5, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
     }
 
     public void handleCollisions() {

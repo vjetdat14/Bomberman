@@ -27,7 +27,7 @@ public class BombermanGame extends Application {
 
     public static Bomber bomberman;
     public static Baloom baloom;
-    public int countTime;
+    public static int countTime;
 
 
 
@@ -56,7 +56,7 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
-        baloom = new Baloom(5, 6, Sprite.balloom_right2.getFxImage());
+        baloom = new Baloom(10, 6, Sprite.balloom_right2.getFxImage());
         entities.add(baloom);
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -73,7 +73,6 @@ public class BombermanGame extends Application {
         bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
 
         entities.add(bomberman);
-        scene.setOnKeyReleased(event -> baloom.moving());
         scene.setOnKeyPressed(event -> bomberman.handleKeyPressedEvent(event.getCode())); // sự kiện nhập từ bàn phím
         scene.setOnKeyReleased(event -> bomberman.handleKeyReleasedEvent(event.getCode()));
         }
