@@ -10,6 +10,10 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.BombermanGame;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static uet.oop.bomberman.BombermanGame.bomberman;
 
 public class Baloom extends Character {
 
@@ -22,22 +26,27 @@ public class Baloom extends Character {
 
     @Override
     public void update() {
-        int timeAnimation = 0;
-        int t = new Random().nextInt(2);
-        if (t == 0) {
-            timeAnimation++;
-            if (timeAnimation == 1) {
-                t = new Random().nextInt(2);
-                timeAnimation = 0;
+//            Timer count = new Timer();
+//
+//        count.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//            int t = new Random().nextInt(2);
+//            if (t == 0) {
+//                    goRight();
+//                } else {
+//                    goLeft();
+//                }
+//            }
+//        }, 200, 1);
+//    }
+//        int timeAnimation = 0;
+//        int t = new Random().nextInt(2);
+        if (BombermanGame.countTime%200>=100) {
                     goRight();
                 } else {
                     goLeft();
                 }
-
-            }else
-            {
-                goLeft();
-            }
         }
 
             @Override
