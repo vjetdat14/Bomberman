@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.LinkedList;
 
 public class Map {
+
     protected LinkedList<Image> map;
 
     protected int[][] mapHash;
@@ -40,6 +41,7 @@ public class Map {
             var5.printStackTrace();
         }
     }
+
 
     private void cpyHash(int[][] mapHash) {
     }
