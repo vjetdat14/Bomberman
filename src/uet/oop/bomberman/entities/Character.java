@@ -9,6 +9,7 @@ import java.awt.*;
 public abstract class Character extends Entity {
     protected int desX = x;
     protected int desY = y;
+    protected int desZ;
     protected int speed;
     protected int left = 0;
     protected int right = 0;
@@ -25,17 +26,21 @@ public abstract class Character extends Entity {
     }
     //Các phương thức di chuyển của "Character"
     public void goLeft() {
+        desZ = x;
         desX = x - speed;
     }
 
     public void goRight() {
+        desZ = x;
         desX = x + speed;
     }
     public void goUp() {
+        desZ = y;
         desY = y - speed;
     }
 
     public void goDown() {
+        desZ = y;
         desY = y + speed;
     }
 
@@ -47,8 +52,22 @@ public abstract class Character extends Entity {
 
     // dừng
     public void stay() {
-        desX = x;
-        desY = y;
+//        desX = x;
+//        desY = y;
+        if (desZ == desX + speed) {
+            desX = x + speed;
+            desY = y;
+        } else if (desZ == desX - speed) {
+            desX = x - speed;
+            desY = y;
+        } else if (desZ == desY + speed) {
+            desX = x;
+            desY = y + speed;
+        } else {
+            desX = x;
+            desY = y - speed;
+        }
+//        speed = 0;
     }
     //Tạo bound cho "Character"
     public Rectangle getBounds() {
