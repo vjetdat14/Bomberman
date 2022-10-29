@@ -7,6 +7,8 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 import java.awt.*;
 
+import static uet.oop.bomberman.BombermanGame.bomberman;
+
 public class Bomber extends Character {
 
     private KeyCode key = null; // khai báo phím bấm
@@ -98,9 +100,15 @@ public class Bomber extends Character {
         Rectangle r1 = BombermanGame.bomberman.getBounds(); // tạo bound cho bomber
         for (Entity stillObject : BombermanGame.stillObjects) { // duyệt all thực thể
             Rectangle r2 = stillObject.getBounds();  // tạo bao cho all thực thể
-            if (r1.intersects(r2)) { // nếu bomber va chạm với các vật thể thì trả về true
+            if (r1.getBounds2D().intersects(r2.getBounds2D())) { // nếu bomber va chạm với các vật thể thì trả về true
                 if (stillObject instanceof Wall) {
                     BombermanGame.bomberman.stay();
+                    System.out.println("cham tuong");
+                    System.out.println(bomberman.getX()+","+stillObject.x);
+                    System.out.println(bomberman.getY()+","+stillObject.y);
+                } else if (stillObject instanceof Baloom) {
+                    bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+                    System.out.println("cham quai");
                 } else {
                     BombermanGame.bomberman.move();
                 }

@@ -6,6 +6,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
@@ -14,6 +16,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BombermanGame extends Application {
     
@@ -44,11 +47,10 @@ public class BombermanGame extends Application {
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
-//        Media media = new Media(Objects.requireNonNull(BombermanGame.class.getResource("/music/URF.mp3")).toURI().toString());
-//
-//        MediaPlayer soundlooby = new MediaPlayer(media);
-//        soundlooby.setCycleCount(MediaPlayer.INDEFINITE);
-//        soundlooby.play();
+//        Media media = new Media("/music/URF.mp3");
+//        MediaPlayer mediaplr = new MediaPlayer(media);
+//        mediaplr.setCycleCount(MediaPlayer.INDEFINITE);
+//        mediaplr.play();
 
         // Tao scene
         Scene scene = new Scene(root, Color.LIGHTBLUE);
@@ -57,7 +59,7 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
         baloom = new Baloom(10, 6, Sprite.balloom_right2.getFxImage());
-        entities.add(baloom);
+        stillObjects.add(baloom);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -103,6 +105,7 @@ public class BombermanGame extends Application {
         entities.forEach(g -> g.render(gc));
         coutTime();
         bomberman.render(gc);
+        baloom.render(gc);
     }
     public void coutTime() {
         if ( countTime<400*60) {
