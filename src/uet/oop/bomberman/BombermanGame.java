@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 public class BombermanGame extends Application {
     
     public static final int WIDTH = 31;
@@ -30,6 +31,7 @@ public class BombermanGame extends Application {
 
     public static Bomber bomberman;
     public static Baloom baloom;
+    public static Bomb bomb;
     public static int countTime;
 
 
@@ -58,6 +60,7 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
+        bomb = new Bomb(10,6,Sprite.bomb_2.getFxImage());
         baloom = new Baloom(10, 6, Sprite.balloom_right2.getFxImage());
         stillObjects.add(baloom);
         AnimationTimer timer = new AnimationTimer() {
@@ -66,6 +69,7 @@ public class BombermanGame extends Application {
                 render();
                 update();
                 baloom.update();
+                bomb.update();
             }
         };
         timer.start();
@@ -106,6 +110,7 @@ public class BombermanGame extends Application {
         coutTime();
         bomberman.render(gc);
         baloom.render(gc);
+        bomb.render(gc);
     }
     public void coutTime() {
         if ( countTime<400*60) {

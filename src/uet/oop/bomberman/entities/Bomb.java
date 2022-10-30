@@ -1,7 +1,12 @@
 package uet.oop.bomberman.entities;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Bomb extends Character {
@@ -28,4 +33,8 @@ public class Bomb extends Character {
 
     }
 
+    @Override
+    public void render(GraphicsContext gc) {
+        super.render(gc);
+    }
 }

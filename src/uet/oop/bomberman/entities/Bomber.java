@@ -35,6 +35,9 @@ public class Bomber extends Character {
         if (key == KeyCode.S) {
             goDown();
         }
+        if (key == KeyCode.SPACE) {
+            putBoom();
+        }
 
     }
 
@@ -43,7 +46,7 @@ public class Bomber extends Character {
     public void handleKeyPressedEvent(KeyCode keyCode) {
 
         if (keyCode == KeyCode.A || keyCode == KeyCode.D
-                || keyCode == KeyCode.W || keyCode == KeyCode.S) {
+                || keyCode == KeyCode.W || keyCode == KeyCode.S || keyCode == KeyCode.SPACE) {
             this.key = keyCode;
         }
     }
@@ -62,6 +65,8 @@ public class Bomber extends Character {
             }
             if (key == KeyCode.S) {
                 img = Sprite.player_down.getFxImage();
+            }
+            if (key == KeyCode.SPACE) {
             }
             key = null;
         }
@@ -92,6 +97,10 @@ public class Bomber extends Character {
         handleCollisions();
     }
 
+    public void putBoom() {
+        super.putBoom();
+    }
+
     public Rectangle getBounds() { // tạo bao cho bomber
         return new Rectangle(desX + 3, desY + 5, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
     }
@@ -107,7 +116,7 @@ public class Bomber extends Character {
                     System.out.println(bomberman.getX()+","+stillObject.x);
                     System.out.println(bomberman.getY()+","+stillObject.y);
                 } else if (stillObject instanceof Baloom) {
-                    bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+//                    bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
                     System.out.println("cham quai");
                 } else {
                     BombermanGame.bomberman.move();

@@ -16,6 +16,8 @@ public abstract class Character extends Entity {
     protected int up = 0;
     protected int down = 0;
 
+    protected int boom = 0;
+
     public Character(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         isAlive = true;
@@ -44,6 +46,8 @@ public abstract class Character extends Entity {
         desY = y + speed;
     }
 
+    public void putBoom() {
+    }
     // Cho phép di chuyển
     public void move() {
         x = desX;
