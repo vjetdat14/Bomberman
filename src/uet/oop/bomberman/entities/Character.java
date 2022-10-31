@@ -26,56 +26,36 @@ public abstract class Character extends Entity {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-    //Các phương thức di chuyển của "Character"
+    //Các phương thức di chuyển
     public void goLeft() {
-        desZ = x;
         desX = x - speed;
     }
 
     public void goRight() {
-        desZ = x;
         desX = x + speed;
     }
     public void goUp() {
-        desZ = y;
         desY = y - speed;
     }
 
     public void goDown() {
-        desZ = y;
         desY = y + speed;
     }
 
-    public void putBoom() {
-    }
-    // Cho phép di chuyển
+    // move
     public void move() {
         x = desX;
         y = desY;
     }
 
-    // dừng
+    // stop
     public void stay() {
-//        desX = x;
-//        desY = y;
-        if (desZ == desX + speed) {
-            desX = x + speed;
-            desY = y;
-        } else if (desZ == desX - speed) {
-            desX = x - speed;
-            desY = y;
-        } else if (desZ == desY + speed) {
-            desX = x;
-            desY = y + speed;
-        } else {
-            desX = x;
-            desY = y - speed;
-        }
-//        speed = 0;
+        desX = x;
+        desY = y;
     }
     //Tạo bound cho "Character"
     public Rectangle getBounds() {
-        return new Rectangle(desX, desY, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+        return new Rectangle(desX, desY+3, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE*7/8);
     }
 
 

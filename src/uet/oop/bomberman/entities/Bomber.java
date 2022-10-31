@@ -1,22 +1,54 @@
 package uet.oop.bomberman.entities;
 
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Enemy.Balloom;
+import uet.oop.bomberman.entities.Still.Bomb;
+import uet.oop.bomberman.entities.Still.Brick;
+import uet.oop.bomberman.entities.Still.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
 
-import static uet.oop.bomberman.BombermanGame.bomberman;
+import static uet.oop.bomberman.BombermanGame.*;
 
 public class Bomber extends Character {
 
     private KeyCode key = null; // khai báo phím bấm
 
+    private int bombRemain; // khai báo biến "số bom dữ trự"
+    private boolean placeBombCommand = false; // quản lý về việc đặt bom (trả về true or false)
+    private boolean isAllowedGoToBom = false; // quản lý việc đi xuyên qua bom (trả về true hoặc false)
+    private final List<Bomb> bombs = new ArrayList<>(); // khai báo list quản lý bom
+    private int radius; // biến bán kính nổ
+    private int life;
+    private int timeAfterDie = 0;
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
         setSpeed(3); // tốc độ
+        setLayer(1); // chỉ số va chạm của bomber
+        setSpeed(4); // tốc độ
+        setBombRemain(2); // số bom dự trữ
+        setRadius(1); // bán kính nổ
+        life = 1;
+    }
+
+    private void setRadius(int i) {
+        this.radius = i;
+    }
+
+    public void setBombRemain(int bombRemain) { // cài số lượng bom dự trữ
+        this.bombRemain = bombRemain;
+    }
+
+    public List<Bomb> getBombs() { // trả về list bomb
+        return bombs;
     }
 
     // điều khiển nhân vật
@@ -35,19 +67,46 @@ public class Bomber extends Character {
         if (key == KeyCode.S) {
             goDown();
         }
-        if (key == KeyCode.SPACE) {
-            putBoom();
+        if (placeBombCommand) {
+            placeBomb();
         }
+        for (int i = 0; i < bombs.size(); i++) { // duyệt cái list của bomb
+            Bomb bomb = bombs.get(i);
+            if (!bomb.isAlive()) {
+                bombs.remove(bomb);
+                bombRemain++;
+            }
+        }
+        //animate();
+        if (!isAlive()) {
+            timeAfterDie++;
+            die();
+        }
+
 
     }
 
-    // cout --
-    // khai báo các sự kiện về bàn phím
+    private void placeBomb() {
+        if (bombRemain > 0) {
+            int xB = (int) Math.round((x + 4) / (double) Sprite.SCALED_SIZE);// tọa độ bom
+            int yB = (int) Math.round((y + 4) / (double) Sprite.SCALED_SIZE);//
+            for (Bomb bomb : bombs) { // duyệt list bombs
+                if (xB * Sprite.SCALED_SIZE == bomb.getX() && yB * Sprite.SCALED_SIZE == bomb.getY()) return;
+            }
+            bombs.add(new Bomb(xB, yB, Sprite.bomb.getFxImage(), radius)); // tạo bom và add vào list bomb
+            isAllowedGoToBom = true; // xuyên qua bom trả về true
+            bombRemain--;
+        }
+    }
+
     public void handleKeyPressedEvent(KeyCode keyCode) {
 
         if (keyCode == KeyCode.A || keyCode == KeyCode.D
-                || keyCode == KeyCode.W || keyCode == KeyCode.S || keyCode == KeyCode.SPACE) {
+                || keyCode == KeyCode.W || keyCode == KeyCode.S) {
             this.key = keyCode;
+        }
+        if (keyCode == KeyCode.SPACE) {
+            placeBombCommand = true;
         }
     }
 
@@ -66,10 +125,12 @@ public class Bomber extends Character {
             if (key == KeyCode.S) {
                 img = Sprite.player_down.getFxImage();
             }
-            if (key == KeyCode.SPACE) {
-            }
             key = null;
         }
+        if (keyCode == KeyCode.SPACE) {
+            placeBombCommand = false;
+        }
+
     }
 
     // các load ảnh hiển thị di chuyển
@@ -97,30 +158,94 @@ public class Bomber extends Character {
         handleCollisions();
     }
 
-    public void putBoom() {
-        super.putBoom();
+    public void die() {
+        if (timeAfterDie == 20) life--; // kể từ sau khi bom nổ đến khi 20 đơn vị thời gian thì số mạng giảm xuống 1
+        if (timeAfterDie <= 45) { // load ảnh bomber chết trong 45 đơn vị thời gian
+            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
+                    Sprite.player_dead3, timeAfterDie, 20).getFxImage();
+            img = Sprite.movingSprite(Sprite.bomb_exploded, Sprite.bomb_exploded1, Sprite.bomb_exploded2, 200, 60).getFxImage();
+
+        }
+
     }
 
-    public Rectangle getBounds() { // tạo bao cho bomber
-        return new Rectangle(desX + 3, desY + 5, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
-    }
+//    public void handleCollisions() {
+//        Rectangle r1 = bomberman.getBounds(); // tạo bound cho bomber
+//
+//        List<Bomb> bombs = bomberman.getBombs(); // tạo list bomb
+//        boolean bomberIntersectsBom = false; // biến kiểm tra va chạm bomber và bom
+//        for (Bomb bomb : bombs) {
+//            Rectangle r2 = bomb.getBounds(); // tạo bound cho bomb
+//            if (r1.intersects(r2)) {
+//                bomberIntersectsBom = true; // trả về true nếu bomber va chạm với bomb
+//            }
+//        }
+//
+//        for (Entity stillObject : BombermanGame.stillObjects) { // duyệt all thực thể
+//            Rectangle r2 = stillObject.getBounds();  // tạo bao cho all thực thể
+//            if (r1.getBounds2D().intersects(r2.getBounds2D())) { // nếu bomber va chạm với các vật thể thì trả về true
+//                if (stillObject instanceof Wall) {
+//                    bomberman.stay();
+//                    System.out.println("cham tuong");
+//                    System.out.println(bomberman.getX() + "," + stillObject.x);
+//                    System.out.println(bomberman.getY() + "," + stillObject.y);
+//                } else if (stillObject instanceof Balloom) {
+//                    System.out.println("cham quai");
+////                    bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+//                    stillObjects.remove(stillObject);
+//                } else if ((bomberman.getLayer() >= stillObject.getLayer()) && !bomberIntersectsBom) { // chỉ số va chạm của bomber > grass tại ví trí đặt bom và người ko va chạm vs bom
+//                    bomberman.move(); // cho phép đi qua bom
+//                    isAllowedGoToBom = false; // trả về false -> ko cho phép vượt qua bom nữa
+//                } else if ((bomberman.getLayer() >= stillObject.getLayer()) && bomberIntersectsBom) {
+//                    if (isAllowedGoToBom == true)
+//                        bomberman.move(); // nếu biến trả về true thì cho phép đi qua
+//                    else
+//                        bomberman.stay(); // trả về false bắt đứng lại
+//                } else {
+//                    bomberman.stay();
+//                    {
+//                        bomberman.move();
+//                    }
+//                }
+//                break;
+//            }
+//        }
+//    }
 
     public void handleCollisions() {
-        Rectangle r1 = BombermanGame.bomberman.getBounds(); // tạo bound cho bomber
+        Rectangle r1 = bomberman.getBounds(); // tạo bound cho bomber
+
+        List<Bomb> bombs = bomberman.getBombs(); // tạo list bomb
+        boolean bomberIntersectsWall = false;
+        boolean bomberIntersectsBom = false; // biến kiểm tra va chạm bomber và bom
+        for (Bomb bomb : bombs) {
+            Rectangle r2 = bomb.getBounds(); // tạo bound cho bomb
+            if (r1.intersects(r2)) {
+                bomberIntersectsBom = true; // trả về true nếu bomber va chạm với bomb
+            }
+        }
+
         for (Entity stillObject : BombermanGame.stillObjects) { // duyệt all thực thể
-            Rectangle r2 = stillObject.getBounds();  // tạo bao cho all thực thể
-            if (r1.getBounds2D().intersects(r2.getBounds2D())) { // nếu bomber va chạm với các vật thể thì trả về true
+            if (bomberman.getBounds().intersects(stillObject.getBounds())) { // nếu bomber va chạm với các vật thể thì trả về true
                 if (stillObject instanceof Wall) {
-                    BombermanGame.bomberman.stay();
                     System.out.println("cham tuong");
-                    System.out.println(bomberman.getX()+","+stillObject.x);
-                    System.out.println(bomberman.getY()+","+stillObject.y);
-                } else if (stillObject instanceof Baloom) {
-//                    bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+                } else if (stillObject instanceof Balloom) {
                     System.out.println("cham quai");
+                } else if (!bomberIntersectsBom) { // chỉ số va chạm của bomber > grass tại ví trí đặt bom và người ko va chạm vs bom
+                    bomberman.move(); // cho phép đi qua bom
+                    isAllowedGoToBom = false; // trả về false -> ko cho phép vượt qua bom nữa
+                } else if ( bomberIntersectsBom) {
+                    if (isAllowedGoToBom == true)
+                        bomberman.move(); // nếu biến trả về true thì cho phép đi qua
+                    else
+                        bomberman.stay(); // trả về false bắt đứng lại
                 } else {
-                    BombermanGame.bomberman.move();
+                    bomberman.stay();
+                    {
+                        bomberman.move();
+                    }
                 }
+                break;
             }
         }
     }

@@ -1,24 +1,17 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Enemy;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.util.Duration;
+import uet.oop.bomberman.entities.Character;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.BombermanGame;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import static uet.oop.bomberman.BombermanGame.bomberman;
-
-public class Baloom extends Character {
+public class Balloom extends Character {
 
     public int t;
-        public Baloom(int x, int y, Image img){
+        public Balloom(int x, int y, Image img){
             super(x, y, img);
             setSpeed(1);
             int t = new Random().nextInt(10);
@@ -49,7 +42,7 @@ public class Baloom extends Character {
                 }
         }
 
-            @Override
+    @Override
     public void goLeft() {
                 super.goLeft();
                 img = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, x--, 200).getFxImage();

@@ -24,6 +24,10 @@ public abstract class Entity {
 
     protected int animated = 0;
 
+    public static int nLayer =1;
+
+    public static int WLayer =2;
+
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity( int xUnit, int yUnit, Image img) {
         this.x = xUnit * Sprite.SCALED_SIZE;
@@ -32,6 +36,7 @@ public abstract class Entity {
     }
 
     public void render(GraphicsContext gc) {
+        gc.fillText(".",x,y);
         gc.drawImage(img, x, y);
     }
     public abstract void update();
@@ -53,9 +58,19 @@ public abstract class Entity {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+        return new Rectangle(x-24, y-24, Sprite.SCALED_SIZE*3/4, Sprite.SCALED_SIZE*3/4);
     }
 
+//    public void checkColli (Entity e) {
+//        if(kc(e)<20)
+//
+//    }
+
+    public double kc (Entity e)
+    {
+        double kc = Math.sqrt(Math.pow((this.x - e.x), 2) + Math.pow((this.y - e.y), 2));
+        return kc;
+    }
     public void setAlive(boolean alive) {
         this.isAlive = isAlive;
     }
@@ -71,4 +86,6 @@ public abstract class Entity {
     public void setLayer(int layer) {
         this.layer = layer;
     }
+
+
 }
