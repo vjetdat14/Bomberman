@@ -57,7 +57,7 @@ public abstract class Entity {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x-24, y-24, Sprite.SCALED_SIZE*3/4, Sprite.SCALED_SIZE*3/4);
+        return new Rectangle(x+3, y, Sprite.SCALED_SIZE-8, Sprite.SCALED_SIZE-8);
     }
 
 //    public void checkColli (Entity e) {

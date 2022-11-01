@@ -15,6 +15,7 @@ import uet.oop.bomberman.entities.Still.Bomb;
 import uet.oop.bomberman.entities.Still.Grass;
 import uet.oop.bomberman.entities.Still.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -40,7 +41,6 @@ public class BombermanGame extends Application {
 
     public static int xStart; // tọa độ x ban đầu của bomberman
     public static int yStart; // tọa độ y ban đầu của bomberman
-    public static Balloom balloom;
     public static int countTime;
     public static Scanner scanner; // lớp scanner
 
@@ -56,7 +56,6 @@ public class BombermanGame extends Application {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
-
         // Tao root container
         AnchorPane root = new AnchorPane();
         root.getChildren().add(canvas);
@@ -83,7 +82,7 @@ public class BombermanGame extends Application {
         timer.start();
 
         createMap();
-
+        Sound.play("URF");
         bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         stillObjects.add(bomberman);
         scene.setOnKeyPressed(event -> bomberman.handleKeyPressedEvent(event.getCode())); // sự kiện nhập từ bàn phím

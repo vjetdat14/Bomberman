@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.Enemy.Balloom;
 import uet.oop.bomberman.entities.Enemy.Enemy;
 import uet.oop.bomberman.entities.Still.Bomb;
 import uet.oop.bomberman.entities.Still.Brick;
+import uet.oop.bomberman.entities.Still.Portal;
 import uet.oop.bomberman.entities.Still.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import java.awt.*;
@@ -188,20 +189,28 @@ public class Bomber extends Character {
         for (Entity stillObject : BombermanGame.stillObjects) { // duyệt all thực thể
             Rectangle r2 = stillObject.getBounds();
             boolean biw = false;
-            boolean bie = false;
+            boolean bibr = false;
+            boolean bip = false;
             if (r1.intersects(r2)) { // nếu bomber va chạm với các vật thể thì trả về true
                 if (stillObject instanceof Wall)
                     biw = true;
-                if (stillObject instanceof Balloom)
-                    bie = true;
+                if (stillObject instanceof Brick)
+                    bibr = true;
+                if (stillObject instanceof Portal)
+                    bip = true;
                 if (biw) {
                     bomberman.stay();
                     System.out.println("cham tuong");
                 }
-                if (bie) {
+                if (bibr) {
                     bomberman.stay();
-                    System.out.println("cham quai");
-                } else if (!bomberIntersectsBom) { // chỉ số va chạm của bomber > grass tại ví trí đặt bom và người ko va chạm vs bom
+                    System.out.println("cham gach");
+                }
+                if (bip) {
+                    bomberman.stay();
+                    System.out.println("cham cong");
+                }
+                if (!bomberIntersectsBom) { // chỉ số va chạm của bomber > grass tại ví trí đặt bom và người ko va chạm vs bom
                     bomberman.move(); // cho phép đi qua bom
                     isAllowedGoToBom = false; // trả về false -> ko cho phép vượt qua bom nữa
                 } else if (bomberIntersectsBom) {

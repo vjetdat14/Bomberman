@@ -9,7 +9,7 @@ import uet.oop.bomberman.BombermanGame;
 
 import java.util.Random;
 
-public class Balloom extends Character {
+public class Balloom extends Enemy {
 /**
  * Balloon là Enemy đơn giản nhất di chuyển ngẫu nhiên với vận tốc cố định (1)
  */

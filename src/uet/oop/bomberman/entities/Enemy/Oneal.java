@@ -8,7 +8,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
 
-public class Oneal extends Character {
+public class Oneal extends Enemy {
     /**
      * Oneal là enemy có tốc độ di chuyển thay đổi và đuổi theo bomber
      */
