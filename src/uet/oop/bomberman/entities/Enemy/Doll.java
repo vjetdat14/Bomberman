@@ -8,7 +8,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
 
-public class Doll extends Character {
+public class Doll extends Enemy {
 
     public int t;
         public Doll(int x, int y, Image img){

@@ -55,7 +55,7 @@ public abstract class Character extends Entity {
     }
     //Tạo bound cho "Character"
     public Rectangle getBounds() {
-        return new Rectangle(desX, desY+3, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE*7/8);
+        return new Rectangle(desX+3, desY, Sprite.SCALED_SIZE-5, Sprite.SCALED_SIZE-5);
     }
 
 

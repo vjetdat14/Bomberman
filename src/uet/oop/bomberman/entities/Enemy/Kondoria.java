@@ -8,7 +8,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
 
-public class Kondoria extends Character {
+public class Kondoria extends Enemy {
 
     public int t;
         public Kondoria(int x, int y, Image img){

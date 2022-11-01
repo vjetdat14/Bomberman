@@ -73,14 +73,11 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
-        balloom = new Balloom(10, 6, Sprite.balloom_right2.getFxImage());
-        stillObjects.add(balloom);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 render();
                 update();
-                balloom.update();
             }
         };
         timer.start();
@@ -88,8 +85,7 @@ public class BombermanGame extends Application {
         createMap();
 
         bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-
-        entities.add(bomberman);
+        stillObjects.add(bomberman);
         scene.setOnKeyPressed(event -> bomberman.handleKeyPressedEvent(event.getCode())); // sự kiện nhập từ bàn phím
         scene.setOnKeyReleased(event -> bomberman.handleKeyReleasedEvent(event.getCode()));
         }
@@ -99,7 +95,7 @@ public class BombermanGame extends Application {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
 
-                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1 || (i==4 && j==4)) {
+                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1 || (i==2 && j==2)) {
                     object = new Wall(i, j, Sprite.wall.getFxImage());
                 } else {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
@@ -130,7 +126,6 @@ public class BombermanGame extends Application {
         }
         coutTime();
         bomberman.render(gc);
-        balloom.render(gc);
     }
     public void coutTime() {
         if ( countTime<400*60) {

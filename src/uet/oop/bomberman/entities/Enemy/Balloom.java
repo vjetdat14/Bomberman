@@ -8,7 +8,7 @@ import uet.oop.bomberman.BombermanGame;
 
 import java.util.Random;
 
-public class Balloom extends Character {
+public class Balloom extends Enemy {
 
     public int t;
         public Balloom(int x, int y, Image img){

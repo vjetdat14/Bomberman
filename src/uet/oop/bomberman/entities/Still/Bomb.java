@@ -48,6 +48,6 @@ public class Bomb extends Character {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x + 5, y, Sprite.SCALED_SIZE * 3 / 5, Sprite.SCALED_SIZE * 3 / 5);
+        return new Rectangle(x+12, y, Sprite.SCALED_SIZE*3/4 , Sprite.SCALED_SIZE);
     }
 }
