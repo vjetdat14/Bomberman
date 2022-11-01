@@ -2,19 +2,23 @@ package uet.oop.bomberman.entities.Enemy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Character;
+import uet.oop.bomberman.entities.Enemy.AI.AiLow;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.BombermanGame;
 
 import java.util.Random;
 
-public class Balloom extends Enemy {
-
+public class Balloom extends Character {
+/**
+ * Balloon là Enemy đơn giản nhất di chuyển ngẫu nhiên với vận tốc cố định (1)
+ */
     public int t;
         public Balloom(int x, int y, Image img){
             super(x, y, img);
+            AiLow ai = new AiLow();
             setSpeed(1);
-            int t = new Random().nextInt(10);
+            t = ai.calDirection();
         }
 
     @Override
@@ -61,7 +65,6 @@ public class Balloom extends Enemy {
                 case 2: goLeft();
                 case 3: goRight();
             }
-
 }
 }
 
