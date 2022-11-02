@@ -31,7 +31,7 @@ public class Bomber extends Character {
     private boolean isAllowedGoToBom = false; // quản lý việc đi xuyên qua bom (trả về true hoặc false)
     private final List<Bomb> bombs = new ArrayList<>(); // khai báo list quản lý bom
     public static int radius; // biến bán kính nổ
-    public static int timeAfterDie = 0;
+    public static int timeAfterDie = 0;     //tg sau khi chết
 
     public Sound sound1 = new Sound();
 
@@ -372,7 +372,16 @@ public class Bomber extends Character {
                     else
                     enemy.canMove =true;
                 }
+            for (Entity entity : stillObjects) { // duyệt list bomb
+                Rectangle r6 = entity.getBounds(); // tạo bound cho bomb
+                if (r4.intersects(r6)) { // enemy va chạm bomb
+                    if(entity instanceof Wall || entity instanceof Brick)
+                    enemy.canMove = false;
+                }
+                else
+                    enemy.canMove =true;
             }
+        }
 
         }
     }

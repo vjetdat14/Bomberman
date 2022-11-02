@@ -13,28 +13,13 @@ public class Doll extends Enemy {
     public int t;
         public Doll(int x, int y, Image img){
             super(x, y, img);
-            setSpeed(1);
+            setSpeed(2);
             int t = new Random().nextInt(10);
         }
 
     @Override
     public void update() {
-//            Timer count = new Timer();
-//
-//        count.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//            int t = new Random().nextInt(2);
-//            if (t == 0) {
-//                    goRight();
-//                } else {
-//                    goLeft();
-//                }
-//            }
-//        }, 200, 1);
-//    }
-//        int timeAnimation = 0;
-//        int t = new Random().nextInt(2);
+        if(canMove)
         if (BombermanGame.countTime%200>=100) {
                     goRight();
                 } else {

@@ -22,45 +22,49 @@ public class Balloom extends Enemy {
 
     @Override
     public void update() {
-
-            if(canMove)
-        if (BombermanGame.countTime%300>=150) {
+        int t = (BombermanGame.countTime)%400;
+        if (t>=300) {
             goRight();
-        } else {
+            if(!canMove) {
+                t -= 100;
+            }
+        } else if (t>=200) {
             goLeft();
+            if(!canMove)
+                t-=100;
+        } else if (t>=100) {
+            goUp();
+            if(!canMove)
+                t-=100;
+        } else {
+            goDown();
+            if(!canMove)
+                t=350;
         }
     }
     @Override
     public void goLeft() {
                 super.goLeft();
+                if (canMove)
                 img = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, x--, 200).getFxImage();
         }
             @Override
     public void goRight(){
             super.goRight();
+            if (canMove)
             img = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, x++, 200).getFxImage();
         }
         @Override
         public void goUp() {
         super.goUp();
+            if (canMove)
         img = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, y--, 200).getFxImage();
     }
     @Override
     public void goDown(){
         super.goDown();
+        if (canMove)
         img = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, y++, 200).getFxImage();
     }
-        public void moving(int t){
-                switch (t) {
-                    case 0:
-                        goLeft();
-                    case 1:
-                        goRight();
-                    case 2:
-                        goUp();
-                    case 3:
-                        goDown();
-            }
-}
 }
 
