@@ -7,7 +7,10 @@ import uet.oop.bomberman.entities.Character;
 import uet.oop.bomberman.entities.Enemy.Enemy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Still.Brick;
+<<<<<<< HEAD
 import uet.oop.bomberman.entities.Still.Wall;
+=======
+>>>>>>> origin/main
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
@@ -47,9 +50,23 @@ public class Bomb extends Character {
             bang();
             for (Flame flame : flames) {
                 Rectangle r4 = flame.getBounds(); // tạo bound cho enemy
+<<<<<<< HEAD
 //                if(r4.intersects(bomberman.getBounds()))
 //                    bomberman.isAlive=false;
 
+=======
+                if(r4.intersects(bomberman.getBounds())) {
+                    bomberman.isAlive=false;
+                bomberman.die();
+                Timer count = new Timer(); // chạy lại trò chơi
+                count.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        count.cancel();
+                    }
+                }, 10, 1);
+            }
+>>>>>>> origin/main
                 for (Enemy enemy : entities) { // duyệt list enemy
                     Rectangle r5 = enemy.getBounds(); // tạo bound cho enemy
                     if (r4.intersects(r5)) { // enemy va chạm flame
@@ -63,8 +80,12 @@ public class Bomb extends Character {
                     if (r4.intersects(r5)) { //
                         if(entity instanceof Brick)
                         stillObjects.remove(entity);
+<<<<<<< HEAD
                         if(entity instanceof Wall)
                             flames.remove(flame);
+=======
+                        score=score+25;
+>>>>>>> origin/main
                     }
                 }
             }
