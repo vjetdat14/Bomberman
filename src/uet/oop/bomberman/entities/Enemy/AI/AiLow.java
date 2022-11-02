@@ -5,6 +5,6 @@ public class AiLow extends AI {
 
     @Override
     public int calDirection() {
-        return random.nextInt(4);
+        return (int) (Math.random()%4);
     }
 }

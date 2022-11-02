@@ -3,12 +3,11 @@ package uet.oop.bomberman.entities.Still;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Character;
-import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends Character {
     public Brick(int xUnit, int yUnit, Image img, int nLayer) {
-        super(xUnit, yUnit, img);
+        super(xUnit, yUnit, img, nLayer);
         setLayer(nLayer); // chỉ số va chạm của brick
         isAlive = true; // thuộc tính chỉ còn hay đã mất
     }

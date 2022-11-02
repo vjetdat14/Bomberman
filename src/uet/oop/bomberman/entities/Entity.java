@@ -20,7 +20,7 @@ public abstract class Entity {
 
     protected int layer;
 
-    protected boolean isAlive;
+    public boolean isAlive;
 
     protected int animated = 0;
 
