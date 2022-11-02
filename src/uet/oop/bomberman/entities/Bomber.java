@@ -1,44 +1,47 @@
 package uet.oop.bomberman.entities;
 
-import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
+
+import uet.oop.bomberman.Bomb.*;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Enemy.Balloom;
+import uet.oop.bomberman.Map;
 import uet.oop.bomberman.entities.Enemy.Enemy;
-import uet.oop.bomberman.entities.Still.Bomb;
 import uet.oop.bomberman.entities.Still.Brick;
 import uet.oop.bomberman.entities.Still.Portal;
 import uet.oop.bomberman.entities.Still.Wall;
 import uet.oop.bomberman.graphics.Sprite;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
+import uet.oop.bomberman.item.*;
+import uet.oop.bomberman.sound.Sound;
 
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
+import static uet.oop.bomberman.Bomb.Bomb.flames;
 import static uet.oop.bomberman.BombermanGame.*;
 
 public class Bomber extends Character {
 
     private KeyCode key = null; // khai báo phím bấm
 
-    private int bombRemain; // khai báo biến "số bom dữ trự"
+    public static int bombRemain; // khai báo biến "số bom dữ trự"
     private boolean placeBombCommand = false; // quản lý về việc đặt bom (trả về true or false)
     private boolean isAllowedGoToBom = false; // quản lý việc đi xuyên qua bom (trả về true hoặc false)
     private final List<Bomb> bombs = new ArrayList<>(); // khai báo list quản lý bom
-    private int radius; // biến bán kính nổ
-    private int life;
-    private int timeAfterDie = 0;
+    public static int radius; // biến bán kính nổ
+    public static int timeAfterDie = 0;
+
+    public Sound sound1 = new Sound();
 
     public Bomber(int x, int y, Image img) {
-        super(x, y, img);
-        setSpeed(3); // tốc độ
+        super(x, y, img, nLayer);
         setLayer(1); // chỉ số va chạm của bomber
-        setSpeed(4); // tốc độ
-        setBombRemain(2); // số bom dự trữ
+        setSpeed(startSpeed); // tốc độ
+        setBombRemain(1); // số bom dự trữ
         setRadius(1); // bán kính nổ
-        life = 1;
+        life = 3;
     }
 
     private void setRadius(int i) {
@@ -49,8 +52,20 @@ public class Bomber extends Character {
         this.bombRemain = bombRemain;
     }
 
+    public int getBombRemain() { // cài số lượng bom dự trữ
+        return this.bombRemain;
+    }
+
     public List<Bomb> getBombs() { // trả về list bomb
         return bombs;
+    }
+
+    public void removeBomb(Bomb bomb) {
+        bombs.remove(bomb);
+    }
+
+    public boolean isAlive() { // trả về còn sống hay đã chết
+        return isAlive;
     }
 
     // điều khiển nhân vật
@@ -95,9 +110,25 @@ public class Bomber extends Character {
             for (Bomb bomb : bombs) { // duyệt list bombs
                 if (xB * Sprite.SCALED_SIZE == bomb.getX() && yB * Sprite.SCALED_SIZE == bomb.getY()) return;
             }
-            bombs.add(new Bomb(xB, yB, Sprite.bomb.getFxImage(), radius)); // tạo bom và add vào list bomb
+            bombs.add(new Bomb(xB, yB, Sprite.bomb.getFxImage(),radius)); // tạo bom và add vào list bomb
+            for (int i = 1; i <=radius; i++) {
+                if (i == radius+1) {
+                    flames.add(new FlameLeft(xB - i, yB, null));
+                    flames.add(new FlameRight(xB + i, yB, null));
+                    flames.add(new FlameUp(x, yB - i, null));
+                    flames.add(new FlameDown(x, yB + i, null));
+                } else {
+                    flames.add(new FlameHORIZON(xB - i, yB, null));
+                    flames.add(new FlameHORIZON(xB + i, yB, null));
+                    flames.add(new FlameVERTICAL(xB, yB - i, null));
+                    flames.add(new FlameVERTICAL(xB, yB + i, null));
+                }
+            }
             isAllowedGoToBom = true; // xuyên qua bom trả về true
             bombRemain--;
+            Sound sound1 = new Sound();
+            sound1.setFile("datbom");
+            sound1.play();
         }
     }
 
@@ -161,13 +192,19 @@ public class Bomber extends Character {
     }
 
     public void die() {
-        if (timeAfterDie == 20) life--; // kể từ sau khi bom nổ đến khi 20 đơn vị thời gian thì số mạng giảm xuống 1
-        if (timeAfterDie <= 45) { // load ảnh bomber chết trong 45 đơn vị thời gian
+        if (timeAfterDie++ <= 45) { // load ảnh bomber chết trong 45 đơn vị thời gian
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
-                    Sprite.player_dead3, timeAfterDie, 20).getFxImage();
-
+                    Sprite.player_dead3, timeAfterDie, 15).getFxImage();
         }
-
+        if (timeAfterDie++ == 45) {
+            bomberman.setY(48);
+            bomberman.setX(48);
+            sound1.setFile("bomberdie");
+            sound1.play();
+            timeAfterDie=0;
+            life--;
+            score= score-50;
+        }
     }
 
     public Rectangle getBounds() {
@@ -191,6 +228,12 @@ public class Bomber extends Character {
             boolean biw = false;
             boolean bibr = false;
             boolean bip = false;
+            boolean bibi = false;
+            boolean bidi = false;
+            boolean biei = false;
+            boolean bifi = false;
+            boolean bisi = false;
+            boolean biwpi = false;
             if (r1.intersects(r2)) { // nếu bomber va chạm với các vật thể thì trả về true
                 if (stillObject instanceof Wall)
                     biw = true;
@@ -198,6 +241,18 @@ public class Bomber extends Character {
                     bibr = true;
                 if (stillObject instanceof Portal)
                     bip = true;
+                if (stillObject instanceof DetonatorItem)
+                    bidi = true;
+                if (stillObject instanceof EnemiKillItem)
+                    biei = true;
+                if (stillObject instanceof FlameItem)
+                    bifi = true;
+                if (stillObject instanceof BombItem)
+                    bibi = true;
+                if (stillObject instanceof SpeedItem)
+                    bisi = true;
+                if (stillObject instanceof WallPassItem)
+                    biwpi = true;
                 if (biw) {
                     bomberman.stay();
                     System.out.println("cham tuong");
@@ -207,39 +262,117 @@ public class Bomber extends Character {
                     System.out.println("cham gach");
                 }
                 if (bip) {
-                    bomberman.stay();
-                    System.out.println("cham cong");
+                    if (entities.size() <=0) {
+                        System.out.println("Level Up");
+                        check = true;
+                    } else {
+                        bomberman.stay();
+                        System.out.println("cham cong");
+                    }
                 }
                 if (!bomberIntersectsBom) { // chỉ số va chạm của bomber > grass tại ví trí đặt bom và người ko va chạm vs bom
                     bomberman.move(); // cho phép đi qua bom
                     isAllowedGoToBom = false; // trả về false -> ko cho phép vượt qua bom nữa
-                } else if (bomberIntersectsBom) {
-                    if (isAllowedGoToBom == true)
+                } else
+                if (bomberIntersectsBom) {
+                    if (isAllowedGoToBom) {
                         bomberman.move(); // nếu biến trả về true thì cho phép đi qua
-                    else {
+                    } else {
                         System.out.println("cham bom");
                         bomberman.stay(); // trả về false bắt đứng lại
                     }
-                } else {
-                    bomberman.move();
+                    break;
+                }
+                bomberman.move();
+            }
+//            if (stillObject instanceof Item) { // nêú chỉ số va chạm của bomber = thực thể và thực thể đó là item
+//
+                if (bibi) {
+                    sound1.setFile("eatitem");
+                    sound1.play();
+                    System.out.println("an item");
+                    startBomb++;
+                    bomberman.setBombRemain(startBomb); // set up lại số bom dự trữ
+                    stillObjects.remove(stillObject); // xóa vật thể đó khỏi list thực thể (chính là hành động ăn item)
+                    break;
+                } else if (bisi) { // tương tự bombitem
+                    sound1.setFile("eatitem");
+                    sound1.play();
+                    System.out.println("an item");
+                    bomberman.setSpeed(startSpeed++);
+                    stillObjects.remove(stillObject);
+                    break;
+                } else if (bifi) { // tương tự bombitem
+                    sound1.setFile("eatitem");
+                    sound1.play();
+                    System.out.println("an item");
+                    startFlame++;
+                    System.out.println(startFlame);
+                    bomberman.setRadius(startFlame);
+                    stillObjects.remove(stillObject);
+                    break;
+                } else if (bidi) { // tương tự bombitem
+                    sound1.setFile("eatitem");
+                    sound1.play();
+                    System.out.println("an item");
+                    life++;
+                    stillObjects.remove(stillObject);
+                    break;
+                } else if (biwpi) { // tương tự bombitem
+                    sound1.setFile("eatitem");
+                    sound1.play();
+                    System.out.println("an item");
+                    nLayer++;
+                    bomberman.setLayer(nLayer);
+                    stillObjects.remove(stillObject);
+                    break;
+                } else if (biei) { // tương tự bombitem
+                    sound1.setFile("eatitem");
+                    sound1.play();
+                    System.out.println("an item");
+                    pass = true;
+                    stillObjects.remove(stillObject);
+                    break;
+                }
+
+        }
+
+        for (Enemy enemy : entities) { // duyệt all thực thể
+            Rectangle r3 = enemy.getBounds();
+            boolean bie = false;
+            if (r1.intersects(r3)) { // nếu bomber va chạm với các vật thể thì trả về true
+                bie = true;
+                if (bie) {
+                    bomberman.setAlive(false);
+                    System.out.println("chet");
+                    die();
+                    bomberman.stay();
+                    Timer count = new Timer(); // chạy lại trò chơi
+                    count.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            count.cancel();
+                        }
+                    }, 10, 1);
                 }
                 break;
             }
         }
 
-        for (Entity entity : entities) { // duyệt all thực thể
-            Rectangle r2 = entity.getBounds();
-            boolean biw = false;
-            boolean bie = false;
-            if (r1.intersects(r2)) { // nếu bomber va chạm với các vật thể thì trả về true
-                if (entity instanceof Enemy)
-                    bie = true;
-                if (bie) {
-                    bomberman.stay();
-                    System.out.println("cham quai");
-                    die();
+
+        for (Enemy enemy : BombermanGame.entities) {
+            enemy.canMove=true;
+            Rectangle r4 = enemy.getBounds(); // tạo bound cho enemy
+            for (Bomb bomb : bombs) { // duyệt list bomb
+                Rectangle r5 = bomb.getBounds(); // tạo bound cho bomb
+                if (r4.intersects(r5)) { // enemy va chạm bomb
+                    enemy.canMove = false;
+                    System.out.println("quai dinh bom");
+                }
+                    else
+                    enemy.canMove =true;
                 }
             }
+
         }
     }
-}

@@ -16,9 +16,10 @@ public abstract class Character extends Entity {
     protected int up = 0;
     protected int down = 0;
 
-    protected int boom = 0;
 
-    public Character(int xUnit, int yUnit, Image img) {
+    protected boolean canMove = true;
+
+    public Character(int xUnit, int yUnit, Image img, int nLayer) {
         super(xUnit, yUnit, img);
         isAlive = true;
     }
