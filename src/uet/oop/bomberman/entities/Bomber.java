@@ -357,24 +357,21 @@ public class Bomber extends Character {
                 }
                 break;
             }
-        }
 
-
-        for (Enemy enemy : BombermanGame.entities) {
             enemy.canMove=true;
-            Rectangle r4 = enemy.getBounds(); // tạo bound cho enemy
             for (Bomb bomb : bombs) { // duyệt list bomb
                 Rectangle r5 = bomb.getBounds(); // tạo bound cho bomb
-                if (r4.intersects(r5)) { // enemy va chạm bomb
+                if (r3.intersects(r5)) { // enemy va chạm bomb
                     enemy.canMove = false;
                     System.out.println("quai dinh bom");
                 }
                     else
                     enemy.canMove =true;
                 }
+
             for (Entity entity : stillObjects) { // duyệt list bomb
                 Rectangle r6 = entity.getBounds(); // tạo bound cho bomb
-                if (r4.intersects(r6)) { // enemy va chạm bomb
+                if (r3.intersects(r6)) { // enemy va chạm bomb
                     if(entity instanceof Wall || entity instanceof Brick)
                     enemy.canMove = false;
                 }

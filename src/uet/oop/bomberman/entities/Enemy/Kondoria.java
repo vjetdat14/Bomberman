@@ -35,7 +35,7 @@ public class Kondoria extends Enemy {
 //    }
 //        int timeAnimation = 0;
 //        int t = new Random().nextInt(2);
-        if (BombermanGame.countTime%200>=100) {
+        if (BombermanGame.countTime%200>=50) {
                     goRight();
                 } else {
                     goLeft();

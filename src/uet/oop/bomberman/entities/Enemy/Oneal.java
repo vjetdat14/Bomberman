@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.Enemy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Character;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
@@ -12,38 +13,35 @@ public class Oneal extends Enemy {
     /**
      * Oneal là enemy có tốc độ di chuyển thay đổi và đuổi theo bomber
      */
-
+    private int couterTime = 0;
     public int t;
         public Oneal(int x, int y, Image img){
             super(x, y, img);
-            setSpeed(1);
+            setSpeed(2);
             int t = new Random().nextInt(10);
         }
 
     @Override
     public void update() {
-//            Timer count = new Timer();
-//
-//        count.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//            int t = new Random().nextInt(2);
-//            if (t == 0) {
-//                    goRight();
-//                } else {
-//                    goLeft();
-//                }
-//            }
-//        }, 200, 1);
-//    }
-//        int timeAnimation = 0;
-//        int t = new Random().nextInt(2);
-        if (BombermanGame.countTime%200>=100) {
-                    goRight();
-                } else {
-                    goLeft();
-                }
+        if (couterTime++ >=1) {
+            couterTime =0;
+            if (BombermanGame.bomberman.getX() == this.x && BombermanGame.bomberman.getY() >= this.y)
+                goDown();
+             if (BombermanGame.bomberman.getX() == this.x && BombermanGame.bomberman.getY() <=this.y)
+                goUp();
+             if (BombermanGame.bomberman.getX() >=this.x && BombermanGame.bomberman.getY() == this.y)
+                goRight();
+             if (BombermanGame.bomberman.getX() == this.x && BombermanGame.bomberman.getY() < this.y)
+                goLeft();
+            if (BombermanGame.bomberman.getX() < this.x && BombermanGame.bomberman.getY() > this.y) {
+                goDown();
+            }
+              if (BombermanGame.bomberman.getY() <= this.y && BombermanGame.bomberman.getX() < this.x) {
+                goLeft();
+            } else
+                goRight();
         }
+    }
 
     @Override
     public void goLeft() {

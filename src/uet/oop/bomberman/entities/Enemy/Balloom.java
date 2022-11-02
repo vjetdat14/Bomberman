@@ -12,36 +12,27 @@ public class Balloom extends Enemy {
 /**
  * Balloon là Enemy đơn giản nhất di chuyển ngẫu nhiên với vận tốc cố định (1)
  */
-    public int t;
+    private int couterTime = 0;
     public static AiLow ai = new AiLow();
         public Balloom(int x, int y, Image img){
             super(x, y, img);
 
-            setSpeed(1);
+            setSpeed(10);
         }
 
     @Override
     public void update() {
-        int t = (BombermanGame.countTime)%400;
-        if (t>=300) {
-            goRight();
-            if(!canMove) {
-                t -= 100;
+            int t = couterTime++ % 400;
+            if (t <100) {
+                goRight();
+            } else if (t <200) {
+                goLeft();
+            } else if (t <300) {
+                goDown();
+            } else {
+                goUp();
             }
-        } else if (t>=200) {
-            goLeft();
-            if(!canMove)
-                t-=100;
-        } else if (t>=100) {
-            goUp();
-            if(!canMove)
-                t-=100;
-        } else {
-            goDown();
-            if(!canMove)
-                t=350;
         }
-    }
     @Override
     public void goLeft() {
                 super.goLeft();

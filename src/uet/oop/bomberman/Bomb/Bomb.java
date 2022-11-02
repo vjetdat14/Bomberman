@@ -47,8 +47,10 @@ public class Bomb extends Character {
             bang();
             for (Flame flame : flames) {
                 Rectangle r4 = flame.getBounds(); // tạo bound cho enemy
-//                if(r4.intersects(bomberman.getBounds()))
-//                    bomberman.isAlive=false;
+//                if(r4.intersects(bomberman.getBounds())) {
+//                    bomberman.isAlive = false;
+//                    bomberman.die();
+//                }
                 for (Enemy enemy : entities) { // duyệt list enemy
                     Rectangle r5 = enemy.getBounds(); // tạo bound cho enemy
                     if (r4.intersects(r5)) { // enemy va chạm flame
@@ -60,13 +62,13 @@ public class Bomb extends Character {
                 for (Entity entity : stillObjects) { // duyệt list thuc the
                     Rectangle r5 = entity.getBounds(); // tạo bound cho thuc the
                     if (r4.intersects(r5)) { //
-                        if(entity instanceof Brick)
-                        stillObjects.remove(entity);
-
+                        if(entity instanceof Brick) {
+                            stillObjects.remove(entity);
+                            score = score + 25;
+                        }
                         if(entity instanceof Wall)
                             flames.remove(flame);
 
-                        score=score+25;
 
                     }
                 }

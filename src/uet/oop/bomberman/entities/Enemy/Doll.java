@@ -13,14 +13,14 @@ public class Doll extends Enemy {
     public int t;
         public Doll(int x, int y, Image img){
             super(x, y, img);
-            setSpeed(2);
+            setSpeed(3);
             int t = new Random().nextInt(10);
         }
 
     @Override
     public void update() {
         if(canMove)
-        if (BombermanGame.countTime%200>=100) {
+        if (BombermanGame.countTime%200>=50) {
                     goRight();
                 } else {
                     goLeft();

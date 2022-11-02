@@ -19,4 +19,5 @@ public abstract class Enemy extends Character {
             case 3: goDown();
         }
     }
+
 }
